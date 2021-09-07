@@ -1,6 +1,30 @@
-(ns enjoy-hq-challenge.core)
+(ns enjoy-hq-challenge.core
+  (:require
+    [enjoy-hq-challenge.handler :refer [make-app]]
+    [org.httpkit.server :as ser])
+  (:gen-class))
 
-(defn foo
-  "I don't do a whole lot."
-  [x]
-  (println x "Hello, World!"))
+(defonce server (atom nil))
+
+(defn stop-server! []
+  (when @server
+    (@server)))
+
+(defn start-server! [handler port]
+  (stop-server!)
+  (reset! server (ser/run-server handler {:port port})))
+
+(defn -main
+  "Entry point to run the program"
+  [& args]
+  (let [[p & _] args
+        port (if (empty? p) 8080 (Integer/parseInt p))]
+    (println "server started on port " port)
+    (start-server! (make-app) port)))
+
+(comment
+  (string? nil)
+  (-main "300")
+  (start-server! (make-app) 8080)
+  (stop-server!)
+  )
