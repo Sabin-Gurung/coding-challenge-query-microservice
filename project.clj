@@ -9,6 +9,7 @@
                  [mysql/mysql-connector-java "8.0.19"]
                  [honeysql "1.0.461"]
                  [migratus "1.3.3"]
+                 [prismatic/schema "1.1.12"]
                  [http-kit "2.5.3"]]
   :main enjoy-hq-challenge.core
   :repl-options {:init-ns enjoy-hq-challenge.core})
