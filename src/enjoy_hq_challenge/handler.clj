@@ -1,6 +1,7 @@
 (ns enjoy-hq-challenge.handler
   (:require
     [reitit.ring :as ring]
+    [enjoy-hq-challenge.routes :as routes]
     ))
 
 (defn default-handlers []
@@ -12,12 +13,8 @@
 (defn make-app []
   (ring/ring-handler
     (ring/router
-      [
-       ["/health-check" {:get {:handler (fn [_]
-                                          {:status  200
-                                           :body    {:message "up"}
-                                           :headers {}})
-                               }}]]
+      [routes/ping-routes
+       ]
       )
     (default-handlers)
     ))
