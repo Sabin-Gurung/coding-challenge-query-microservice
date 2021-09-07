@@ -8,5 +8,6 @@
                  [com.github.seancorfield/next.jdbc "1.1.646"]
                  [mysql/mysql-connector-java "8.0.19"]
                  [honeysql "1.0.461"]
+                 [migratus "1.3.3"]
                  ]
   :repl-options {:init-ns enjoy-hq-challenge.core})

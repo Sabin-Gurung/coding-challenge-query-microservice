@@ -6,15 +6,16 @@
             )
   )
 
-(def db-spec {:dbtype   "mysql"
-              :dbname   "enjoy_hq_dev"
-              :user     "root"
-              :password "qwerasdf"
-              :host     "localhost"
-              :port     "3307"
-              })
+(def db-config {:classname "com.mysql.jdbc.Driver"
+                :dbtype    "mysql"
+                :user      "root"
+                :password  "qwerasdf"
+                :host      "localhost"
+                :port      "3307"
+                :dbname    "enjoy_hq_dev"
+                :subname   "//localhost:3307/enjoy_hq_dev"})
 
-(def my-db (jdbc/get-datasource db-spec))
+(def my-db (jdbc/get-datasource db-config))
 
 (defn execute [query]
   (jdbc/execute! my-db query {:builder-fn rs/as-unqualified-maps}))
