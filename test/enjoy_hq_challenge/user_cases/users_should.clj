@@ -28,3 +28,21 @@
                  (is (= [] (calls dao/create-user!)))
                  )))
   )
+
+(deftest validate-user
+  (testing "return user payload without password"
+    (with-mock [dao/get-user data/a-user]
+               (let [expected (dissoc data/a-user :password)
+                     actual (SUT/validate-user data/a-user)]
+                 (is (= actual expected))
+                 (is (= [[data/a-user]] (calls dao/get-user)))
+                 )))
+
+  (testing "return nil if user does not exist"
+    (with-mock [dao/get-user nil]
+               (let [expected nil
+                     actual (SUT/validate-user data/a-user)]
+                 (is (= actual expected))
+                 (is (= [[data/a-user]] (calls dao/get-user)))
+                 )))
+  )
