@@ -23,7 +23,7 @@
 
    ["/authenticate" {:post {:summary    "Login user"
                             :parameters {:body sc/User}
-                            :handler    (fn [{{body :body} :parameters :as req}]
+                            :handler    (fn [{{body :body} :parameters}]
                                           (if-let [payload (user-use-case/validate-user body)]
                                             (rs/response {:token (auth/create-token payload)})
                                             {:status 401 :body {:error "Invalid credential"}}))}}]])
@@ -35,4 +35,12 @@
                       :handler    (fn [{{body :body}         :parameters
                                         {username :username} :identity}]
                                     (rs/response (doc-use-case/create username body)))}}]
+
+   ["/_index/:id" {:get {:summary    "Get a document"
+                         :parameters {:path {:id s/Int}}
+                         :handler    (fn [{{{id :id} :path}     :parameters
+                                           {username :username} :identity}]
+                                       (if-let [doc (doc-use-case/fetch username id)]
+                                         (rs/response doc)
+                                         (rs/not-found {:error "document not found"})))}}]
    ])

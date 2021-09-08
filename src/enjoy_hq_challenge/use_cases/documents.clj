@@ -7,3 +7,8 @@
   (let [doc (dao/insert-document! (assoc body :username username))]
     {:status "ack"
      :id     (:generated_key doc)}))
+
+(defn fetch [username id]
+  (let [body {:username username
+              :id       id}]
+    (dao/get-document body)))
