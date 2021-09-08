@@ -1,10 +1,10 @@
 (ns enjoy-hq-challenge.api.routes
   (:require
-    [schema.core :as s]
+    [enjoy-hq-challenge.api.schemas :as sc]
     [enjoy-hq-challenge.use-cases.users :as user-use-case]
     [ring.util.response :as rs]
-    )
-  )
+    [schema.core :as s]
+    ))
 
 (def ping-routes
   ["/health-check" {:get {:summary "Status of the service"
@@ -15,9 +15,9 @@
                           }}])
 
 (def user-routes
-  ["/sign-up" {:post {:summary    "Create new user"
-                      :parameters {:body {:username s/Str
-                                          :password s/Str}}
-                      :handler    (fn [{{body :body} :parameters}]
-                                    (rs/response (user-use-case/create-user body)))}}
-   ])
+  [["/sign-up" {:post {:summary    "Create new user"
+                       :parameters {:body sc/User}
+                       :handler    (fn [{{body :body} :parameters}]
+                                     (rs/response (user-use-case/create-user body)))}}]
+   ]
+  )
