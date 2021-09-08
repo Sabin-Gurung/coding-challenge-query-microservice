@@ -24,7 +24,7 @@
       [(swagger-routes)
        routes/ping-routes
        routes/user-routes
-       ]
+       routes/document-routes]
       {:data {:coercion   reitit.coercion.schema/coercion
               :muuntaja   m/instance
               :middleware [parameters/parameters-middleware

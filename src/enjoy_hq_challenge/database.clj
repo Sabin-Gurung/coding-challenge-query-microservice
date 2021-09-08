@@ -39,7 +39,7 @@
       (h/format)
       ;vec
       ;(->> (jdbc/execute! my-db))
-      (execute)
+      (execute {})
       )
 
   (-> (hh/update :users)
@@ -51,16 +51,15 @@
       (execute)
       )
 
-  (-> (hh/insert-into :lala)
-      (hh/values [{:username "lal"}])
+  (-> (hh/insert-into :documents)
+      (hh/values [{:username "bb" :title "wehrkjla" :content "contetndsfkjsadfads"}])
       h/format
       (execute-one {:return-keys true})
       )
 
-  (-> (hh/delete-from :lala)
+  (-> (hh/delete-from :users)
       h/format
       (execute-one {:return-keys false})
-      :update-count
       )
 
   (-> (hh/select :*)

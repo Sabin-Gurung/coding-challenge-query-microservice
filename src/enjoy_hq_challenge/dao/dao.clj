@@ -26,6 +26,12 @@
       h/format
       (execute-one (first tx))))
 
+(defn insert-document! [doc & tx]
+  (-> (hh/insert-into :documents)
+      (hh/values [doc])
+      h/format
+      (execute-one (assoc tx :return-keys true))))
+
 (comment
   (get-user {:username "bb" :password nil})
   (create-user! {:username "there" :password "hello"})
