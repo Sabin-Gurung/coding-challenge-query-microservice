@@ -17,8 +17,15 @@
 
 (def my-db (jdbc/get-datasource db-config))
 
-(defn execute [query]
-  (jdbc/execute! my-db query {:builder-fn rs/as-unqualified-maps}))
+(defn execute [query transaction]
+  (if transaction
+    (jdbc/execute! transaction query {:builder-fn rs/as-unqualified-maps})
+    (jdbc/execute! my-db query {:builder-fn rs/as-unqualified-maps})))
+
+(defn execute-one [query transaction]
+  (if transaction
+    (jdbc/execute-one! transaction query {:builder-fn rs/as-unqualified-maps})
+    (jdbc/execute-one! my-db query {:builder-fn rs/as-unqualified-maps})))
 
 (comment
   (-> (hh/insert-into :users)

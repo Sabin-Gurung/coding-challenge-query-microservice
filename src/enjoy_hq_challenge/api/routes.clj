@@ -1,5 +1,9 @@
 (ns enjoy-hq-challenge.api.routes
-  (:require [schema.core :as s])
+  (:require
+    [schema.core :as s]
+    [enjoy-hq-challenge.use-cases.users :as user-use-case]
+    [ring.util.response :as rs]
+    )
   )
 
 (def ping-routes
@@ -14,9 +18,6 @@
   ["/sign-up" {:post {:summary    "Create new user"
                       :parameters {:body {:username s/Str
                                           :password s/Str}}
-                      :handler    (fn [{{{:keys [username password]} :body} :parameters}]
-                                    {:status  200
-                                     :body    {:username username
-                                               :password password}
-                                     :headers {}})
-                      }}])
+                      :handler    (fn [{{body :body} :parameters}]
+                                    (rs/response (user-use-case/create-user body)))}}
+   ])

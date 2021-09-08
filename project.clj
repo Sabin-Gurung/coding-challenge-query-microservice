@@ -12,4 +12,5 @@
                  [prismatic/schema "1.1.12"]
                  [http-kit "2.5.3"]]
   :main enjoy-hq-challenge.core
+  :profiles {:dev {:dependencies [[mock-clj "0.2.1"]]}}
   :repl-options {:init-ns enjoy-hq-challenge.core})
