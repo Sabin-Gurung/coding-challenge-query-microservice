@@ -17,5 +17,7 @@
 
   (migratus/up config 20210907192747)
   (migratus/down config 20210907192747)
+
   (migratus/create config "create users table")
+  (migratus/create config "create docs table")
   )
