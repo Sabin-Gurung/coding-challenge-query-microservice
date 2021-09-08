@@ -1,6 +1,6 @@
-(ns enjoy-hq-challenge.handler
+(ns enjoy-hq-challenge.api.handler
   (:require
-    [enjoy-hq-challenge.routes :as routes]
+    [enjoy-hq-challenge.api.routes :as routes]
     [muuntaja.core :as m]
     [reitit.coercion.schema]
     [reitit.ring :as ring]
@@ -16,13 +16,7 @@
 (defn swagger-routes []
   ["" {:no-doc true}
    ["/swagger.json" {:get (swagger/create-swagger-handler)}]
-   ["/api-docs/*" {:get (swagger-ui/create-swagger-ui-handler {:url "/swagger.json"})}]])
-
-(defn default-handlers []
-  (ring/create-default-handler
-    {:not-found          (constantly {:status 404 :body {:message "Endpoint not found"}})
-     :method-not-allowed (constantly {:status 405 :body {:message "Method not allowed"}})
-     :not-acceptable     (constantly {:status 406 :body {:message "Request not acceptable"}})}))
+   ["/api-docs/*" {:get (swagger-ui/create-swagger-ui-handler)}]])
 
 (defn make-app []
   (ring/ring-handler
@@ -41,8 +35,7 @@
                            coercion/coerce-response-middleware
                            coercion/coerce-request-middleware]
               }})
-    (default-handlers)))
-
+    (ring/create-default-handler)))
 
 (comment
   (def app (make-app))

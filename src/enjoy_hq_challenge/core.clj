@@ -1,6 +1,6 @@
 (ns enjoy-hq-challenge.core
   (:require
-    [enjoy-hq-challenge.handler :refer [make-app]]
+    [enjoy-hq-challenge.api.handler :refer [make-app]]
     [org.httpkit.server :as ser])
   (:gen-class))
 

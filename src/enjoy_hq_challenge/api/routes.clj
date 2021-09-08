@@ -1,4 +1,4 @@
-(ns enjoy-hq-challenge.routes
+(ns enjoy-hq-challenge.api.routes
   (:require [schema.core :as s])
   )
 
