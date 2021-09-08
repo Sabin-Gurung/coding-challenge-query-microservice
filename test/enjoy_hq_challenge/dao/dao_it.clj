@@ -9,13 +9,14 @@
 (deftest create-and-fetch-user
   (jdbc/with-transaction
     [tx db/my-db {:rollback-only true}]
+    (let [op {:transaction tx}]
 
-    ; given no user
-    (is (= nil (dao/get-user data/a-user tx)))
+      ; given no user
+      (is (= nil (dao/get-user data/a-user op)))
 
-    ; when create user
-    (dao/create-user! data/a-user tx)
+      ; when create user
+      (dao/create-user! data/a-user op)
 
-    ; user should exist
-    (is (= data/a-user (dao/get-user data/a-user tx)))
+      ; user should exist
+      (is (= data/a-user (dao/get-user data/a-user op))))
     ))

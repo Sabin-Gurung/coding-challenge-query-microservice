@@ -17,15 +17,20 @@
 
 (def my-db (jdbc/get-datasource db-config))
 
-(defn execute [query transaction]
+(defn- target [transaction]
   (if transaction
-    (jdbc/execute! transaction query {:builder-fn rs/as-unqualified-maps})
-    (jdbc/execute! my-db query {:builder-fn rs/as-unqualified-maps})))
+    transaction
+    my-db))
 
-(defn execute-one [query transaction]
-  (if transaction
-    (jdbc/execute-one! transaction query {:builder-fn rs/as-unqualified-maps})
-    (jdbc/execute-one! my-db query {:builder-fn rs/as-unqualified-maps})))
+(defn- options [return-keys]
+  {:builder-fn  rs/as-unqualified-lower-maps
+   :return-keys return-keys})
+
+(defn execute [query {:keys [transaction return-keys]}]
+  (jdbc/execute! (target transaction) query (options return-keys)))
+
+(defn execute-one [query {:keys [transaction return-keys]}]
+  (jdbc/execute-one! (target transaction) query (options return-keys)))
 
 (comment
   (-> (hh/insert-into :users)
@@ -44,6 +49,18 @@
       ;vec
       ;(->> (jdbc/execute! my-db))
       (execute)
+      )
+
+  (-> (hh/insert-into :lala)
+      (hh/values [{:username "lal"}])
+      h/format
+      (execute-one {:return-keys true})
+      )
+
+  (-> (hh/delete-from :lala)
+      h/format
+      (execute-one {:return-keys false})
+      :update-count
       )
 
   (-> (hh/select :*)
