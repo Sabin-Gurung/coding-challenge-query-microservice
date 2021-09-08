@@ -22,7 +22,7 @@
   (ring/ring-handler
     (ring/router
       [(swagger-routes)
-       routes/ping-routes
+       routes/health-routes
        routes/user-routes
        routes/document-routes]
       {:data {:coercion   reitit.coercion.schema/coercion

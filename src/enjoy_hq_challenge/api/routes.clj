@@ -8,15 +8,17 @@
     [schema.core :as s]
     ))
 
-(def ping-routes
-  ["/health-check" {:get {:summary "Status of the service"
-                          :handler (fn [_]
-                                     {:status  200
-                                      :body    {:message "up"}
-                                      :headers {}})}}])
+(def health-routes
+  ["" {:swagger {:tags ["heath"]}}
+   ["/health-check" {:get {:summary "Status of the service"
+                           :handler (fn [_]
+                                      {:status  200
+                                       :body    {:message "up"}
+                                       :headers {}})}}]])
 
 (def user-routes
-  [["/sign-up" {:post {:summary    "Create new user"
+  ["" {:swagger {:tags ["authentication"]}}
+   ["/sign-up" {:post {:summary    "Create new user"
                        :parameters {:body sc/User}
                        :handler    (fn [{{body :body} :parameters}]
                                      (rs/response (user-use-case/create-user body)))}}]
@@ -29,7 +31,8 @@
                                             {:status 401 :body {:error "Invalid credential"}}))}}]])
 
 (def document-routes
-  ["" {:middleware [auth/wrap-jwt-authentication auth/auth-middleware]}
+  ["" {:middleware [auth/wrap-jwt-authentication auth/auth-middleware]
+       :swagger    {:tags ["document [private]"]}}
    ["/_index" {:post {:summary    "Post a new document"
                       :parameters {:body sc/Document}
                       :handler    (fn [{{body :body}         :parameters
