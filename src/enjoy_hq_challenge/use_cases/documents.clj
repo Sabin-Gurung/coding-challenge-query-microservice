@@ -13,7 +13,7 @@
               :id       id}]
     (dao/get-document body)))
 
-(defn fetch [username id]
+(defn delete [username id]
   (let [body {:username username
               :id       id}]
     (dao/del-document! body)))

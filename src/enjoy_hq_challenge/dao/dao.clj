@@ -71,6 +71,7 @@
 
 (comment
   (del-document! {:id 20})
+  (get-document {:id 21})
   (get-document {:username "stringa" :id 3})
   (tf/show-formatters)
   (-> (tf/parse (tf/formatter
