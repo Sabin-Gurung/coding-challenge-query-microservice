@@ -60,10 +60,17 @@
       (where doc)
       h/format
       (execute-one (first tx))
-      (update :updated_at sql-time->str)
-      (update :created_at sql-time->str)))
+      (some-> (update :updated_at sql-time->str)
+              (update :created_at sql-time->str))))
+
+(defn del-document! [doc & tx]
+  (-> (hh/delete-from :documents)
+      (where doc)
+      h/format
+      (execute-one (first tx))))
 
 (comment
+  (del-document! {:id 20})
   (get-document {:username "stringa" :id 3})
   (tf/show-formatters)
   (-> (tf/parse (tf/formatter
