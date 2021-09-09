@@ -36,7 +36,7 @@
                       :parameters {:body sc/Document}
                       :handler    (fn [{{body :body}         :parameters
                                         {username :username} :identity}]
-                                    (rs/response (doc-use-case/create username body)))}}]
+                                    (rs/response (doc-use-case/save username body)))}}]
    ["/_index/:id" {:get    {:summary    "Get a document"
                             :parameters {:path {:id s/Int}}
                             :handler    (fn [{{{id :id} :path}     :parameters

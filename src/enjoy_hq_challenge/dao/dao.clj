@@ -45,14 +45,23 @@
       h/format
       (execute-one (first tx))))
 
+(defn- prepare-doc [doc]
+  (-> doc
+      (update :updated_at #(some-> % str->sql-time))
+      (update :created_at #(some-> % str->sql-time))))
+
 (defn insert-document! [doc & tx]
-  (let [prepared-doc (-> doc
-                         (update :updated_at #(some-> % str->sql-time))
-                         (update :created_at #(some-> % str->sql-time)))]
-    (-> (hh/insert-into :documents)
-        (hh/values [prepared-doc])
-        h/format
-        (execute-one (assoc (first tx) :return-keys true)))))
+  (-> (hh/insert-into :documents)
+      (hh/values [(prepare-doc doc)])
+      h/format
+      (execute-one (assoc (first tx) :return-keys true))))
+
+(defn update-document! [doc cond-map & tx]
+  (-> (hh/update :documents)
+      (hh/set0 (prepare-doc doc))
+      (where cond-map)
+      h/format
+      (execute-one (first tx))))
 
 (defn get-document [doc & tx]
   (-> (hh/select :*)
@@ -99,6 +108,10 @@
       (hh/from :documents)
       (h/format)
       (execute nil))
+
+  (update-document! {:title "banana lover lover"}
+                    {:username "tom"
+                     :id       27})
 
   (get-document {:id 10})
   (get-user {:username "bb" :password nil})

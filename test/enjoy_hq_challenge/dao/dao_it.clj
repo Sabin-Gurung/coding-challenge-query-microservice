@@ -27,12 +27,15 @@
     (let [op {:transaction tx}]
 
       (dao/create-user! data/a-user op)
-      (let [{generated_key :generated_key} (dao/insert-document! data/a-document op)]
+      (let [{generated_key_a :generated_key} (dao/insert-document! data/a-document op)
+            {generated_key_b :generated_key} (dao/insert-document! data/a-document op)]
 
-        (is (= data/a-document (dissoc (dao/get-document {:id generated_key} op) :id)))
+        (is (= data/a-document (dissoc (dao/get-document {:id generated_key_a} op) :id)))
 
-        (dao/del-document! {:id generated_key} op)
+        (dao/del-document! {:id generated_key_a} op)
 
-        (is (= nil (dao/get-document {:id generated_key} op)))
+        (is (= nil (dao/get-document {:id generated_key_a} op)))
 
-        ))))
+        (dao/update-document! data/b-document {:id generated_key_b} op)
+
+        (is (= data/b-document (dissoc (dao/get-document {:id generated_key_b} op) :id)))))))
