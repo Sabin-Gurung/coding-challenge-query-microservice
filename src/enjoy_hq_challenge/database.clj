@@ -3,17 +3,11 @@
             [next.jdbc.result-set :as rs]
             [honeysql.core :as h]
             [honeysql.helpers :as hh]
+            [config.core :refer [env]]
             )
   )
 
-(def db-config {:classname "com.mysql.jdbc.Driver"
-                :dbtype    "mysql"
-                :user      "root"
-                :password  "qwerasdf"
-                :host      "localhost"
-                :port      "3307"
-                :dbname    "enjoy_hq_dev"
-                :subname   "//localhost:3307/enjoy_hq_dev"})
+(def db-config (:db env))
 
 (def my-db (jdbc/get-datasource db-config))
 

@@ -6,11 +6,13 @@
     [buddy.sign.jwt :as jwt]
     [buddy.sign.util :refer [to-timestamp]]
     [clj-time.core :as t]
+    [config.core :refer [env]]
     ))
 
-(def jwt-secret "1_secret_23kj123.,1j241lk4j")
+(def auth-config (:auth env))
 
-(def token-duration-seconds 300)
+(def jwt-secret (:jwt-secret auth-config))
+(def token-duration-seconds (:token-duration-seconds auth-config))
 
 (defn exp-time []
   (-> (t/now)

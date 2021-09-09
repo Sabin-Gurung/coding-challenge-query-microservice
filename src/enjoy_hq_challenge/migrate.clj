@@ -8,8 +8,7 @@
 (def config {:store                :database
              :migration-dir        "migrations/"
              :migration-table-name "_migrations"
-             :db                   (assoc db-config :subprotocol (:dbtype db-config))
-             })
+             :db                   (assoc db-config :subprotocol (:dbtype db-config))})
 
 (comment
   (migratus/pending-list config)

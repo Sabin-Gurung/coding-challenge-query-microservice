@@ -12,7 +12,8 @@
                  [migratus "1.3.3"]
                  [mysql/mysql-connector-java "8.0.19"]
                  [org.clojure/clojure "1.10.1"]
-                 [prismatic/schema "1.1.12"]]
+                 [prismatic/schema "1.1.12"]
+                 [yogthos/config "1.1.8"]]
   :main enjoy-hq-challenge.core
   :profiles {:dev {:dependencies [[mock-clj "0.2.1"]]}}
   :repl-options {:init-ns enjoy-hq-challenge.core})

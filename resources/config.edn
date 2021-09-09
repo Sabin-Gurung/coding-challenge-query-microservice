@@ -1,0 +1,11 @@
+{:db   {:classname "com.mysql.jdbc.Driver"
+        :dbtype    "mysql"
+        :user      "root"
+        :password  "qwerasdf"
+        :host      "localhost"
+        :port      "3307"
+        :dbname    "enjoy_hq_dev"
+        :subname   "//localhost:3307/enjoy_hq_dev"}
+ :auth {:jwt-secret             "1_secret_23kj123.,1j241lk4j"
+        :token-duration-seconds 600}}
+
