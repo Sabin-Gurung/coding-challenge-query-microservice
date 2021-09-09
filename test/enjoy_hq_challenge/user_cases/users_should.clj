@@ -15,19 +15,15 @@
                      actual (SUT/create-user data/a-user)]
                  (is (= actual expected))
                  (is (= [[data/a-user]] (calls dao/get-user)))
-                 (is (= [[data/a-user]] (calls dao/create-user!)))
-                 )))
+                 (is (= [[data/a-user]] (calls dao/create-user!))))))
 
-  (testing "return ko if user already exists"
+  (testing "throw if already exists"
     (with-mock [dao/get-user data/a-user
                 dao/create-user! nil]
-               (let [expected {:status "ko"}
-                     actual (SUT/create-user data/a-user)]
-                 (is (= actual expected))
-                 (is (= [[data/a-user]] (calls dao/get-user)))
-                 (is (= [] (calls dao/create-user!)))
-                 )))
-  )
+               (is (thrown-with-msg? Exception #"user already exists"
+                                     (SUT/create-user data/a-user)))
+               (is (= [[data/a-user]] (calls dao/get-user)))
+               (is (= [] (calls dao/create-user!))))))
 
 (deftest validate-user
   (testing "return user payload without password"
@@ -35,14 +31,11 @@
                (let [expected (dissoc data/a-user :password)
                      actual (SUT/validate-user data/a-user)]
                  (is (= actual expected))
-                 (is (= [[data/a-user]] (calls dao/get-user)))
-                 )))
+                 (is (= [[data/a-user]] (calls dao/get-user))))))
 
-  (testing "return nil if user does not exist"
+  (testing "thrown if invalid"
     (with-mock [dao/get-user nil]
-               (let [expected nil
-                     actual (SUT/validate-user data/a-user)]
-                 (is (= actual expected))
-                 (is (= [[data/a-user]] (calls dao/get-user)))
-                 )))
+               (is (thrown-with-msg? Exception #"invalid credentials"
+                                     (SUT/validate-user data/a-user)))
+               (is (= [[data/a-user]] (calls dao/get-user)))))
   )

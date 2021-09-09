@@ -26,9 +26,8 @@
    ["/authenticate" {:post {:summary    "Login user"
                             :parameters {:body sc/User}
                             :handler    (fn [{{body :body} :parameters}]
-                                          (if-let [payload (user-use-case/validate-user body)]
-                                            (rs/response {:token (auth/create-token payload)})
-                                            {:status 401 :body {:error "Invalid credential"}}))}}]])
+                                          (let [token (auth/create-token (user-use-case/validate-user body))]
+                                            (rs/response {:token token})))}}]])
 
 (def document-routes
   ["" {:middleware [auth/wrap-jwt-authentication auth/auth-middleware]

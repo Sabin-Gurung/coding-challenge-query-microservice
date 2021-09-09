@@ -7,13 +7,11 @@
 
 (defn create-user [user]
   (let [user-exist? (dao/get-user user)]
-    (if user-exist?
-      {:status "ko"}
-      (do
-        (dao/create-user! user)
-        {:status "ack"}))))
+    (when user-exist? (throw (ex-info "user already exists" {:type :app/resource-already-exists})))
+    (dao/create-user! user)
+    {:status "ack"}))
 
 (defn validate-user [user]
-  (let [db-user (dao/get-user user)]
-    (when db-user
-      (select-keys db-user [:username]))))
+  (if-let [db-user (dao/get-user user)]
+    (select-keys db-user [:username])
+    (throw (ex-info "invalid credentials" {:type :app/invalid-credentials}))))

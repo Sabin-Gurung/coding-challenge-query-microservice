@@ -1,5 +1,6 @@
 (ns enjoy-hq-challenge.api.handler
   (:require
+    [enjoy-hq-challenge.api.exceptions :as ex]
     [enjoy-hq-challenge.api.routes :as routes]
     [muuntaja.core :as m]
     [reitit.coercion.schema]
@@ -30,7 +31,7 @@
               :middleware [parameters/parameters-middleware
                            muuntaja/format-negotiate-middleware
                            muuntaja/format-response-middleware
-                           exception/exception-middleware
+                           ex/middleware
                            muuntaja/format-request-middleware
                            coercion/coerce-response-middleware
                            coercion/coerce-request-middleware]
