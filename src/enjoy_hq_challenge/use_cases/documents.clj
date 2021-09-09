@@ -14,8 +14,7 @@
   {:id generated_key})
 
 (defn save [username doc]
-  (let [db-body (-> doc
-                    (dissoc :id)
+  (let [db-body (-> (dissoc doc :id)
                     (assoc :username username))]
     (-> (if (should-update? doc)
           (dao/update-document! db-body (identifier doc username))

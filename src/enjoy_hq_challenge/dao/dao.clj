@@ -32,51 +32,57 @@
        (map (fn [[k v]] [:= k v]))
        (apply (partial hh/where sql-map))))
 
-(defn get-user [user & tx]
+(defn get-user [user]
   (-> (hh/select :*)
       (hh/from :users)
       (where user)
       h/format
-      (execute-one (first tx))))
+      execute-one))
 
-(defn create-user! [user & tx]
+(defn create-user! [user]
   (-> (hh/insert-into :users)
       (hh/values [user])
       h/format
-      (execute-one (first tx))))
+      execute-one))
 
 (defn- prepare-doc [doc]
   (-> doc
       (update :updated_at #(some-> % str->sql-time))
       (update :created_at #(some-> % str->sql-time))))
 
-(defn insert-document! [doc & tx]
+(defn insert-document! [doc]
   (-> (hh/insert-into :documents)
       (hh/values [(prepare-doc doc)])
       h/format
-      (execute-one (assoc (first tx) :return-keys true))))
+      (execute-one true)))
 
-(defn update-document! [doc cond-map & tx]
+(defn update-document! [doc cond-map]
   (-> (hh/update :documents)
       (hh/set0 (prepare-doc doc))
       (where cond-map)
       h/format
-      (execute-one (first tx))))
+      execute-one))
 
-(defn get-document [doc & tx]
+(defn get-document [doc]
   (-> (hh/select :*)
       (hh/from :documents)
       (where doc)
       h/format
-      (execute-one (first tx))
+      execute-one
       (some-> (update :updated_at sql-time->str)
               (update :created_at sql-time->str))))
 
-(defn del-document! [doc & tx]
+(defn del-document! [doc]
   (-> (hh/delete-from :documents)
       (where doc)
       h/format
-      (execute-one (first tx))))
+      execute-one))
+
+
+
+
+
+
 
 (comment
   (del-document! {:id 20})

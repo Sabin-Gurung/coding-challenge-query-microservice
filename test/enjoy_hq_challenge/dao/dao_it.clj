@@ -8,34 +8,33 @@
 
 (deftest create-and-fetch-user
   (jdbc/with-transaction
-    [tx db/my-db {:rollback-only true}]
-    (let [op {:transaction tx}]
+    [tx db/datasource {:rollback-only true}]
+    (with-redefs [db/datasource tx]
 
       ; given no user
-      (is (= nil (dao/get-user data/a-user op)))
+      (is (= nil (dao/get-user data/a-user)))
 
       ; when create user
-      (dao/create-user! data/a-user op)
+      (dao/create-user! data/a-user)
 
       ; user should exist
-      (is (= data/a-user (dao/get-user data/a-user op))))
+      (is (= data/a-user (dao/get-user data/a-user))))
     ))
 
-(deftest create-insert-document
+(deftest create-insert-and-delete-document
   (jdbc/with-transaction
-    [tx db/my-db {:rollback-only true}]
-    (let [op {:transaction tx}]
+    [tx db/datasource {:rollback-only true}]
+    (with-redefs [db/datasource tx]
+      (dao/create-user! data/a-user)
+      (let [{generated_key_a :generated_key} (dao/insert-document! data/a-document)
+            {generated_key_b :generated_key} (dao/insert-document! data/a-document)]
 
-      (dao/create-user! data/a-user op)
-      (let [{generated_key_a :generated_key} (dao/insert-document! data/a-document op)
-            {generated_key_b :generated_key} (dao/insert-document! data/a-document op)]
+        (is (= data/a-document (dissoc (dao/get-document {:id generated_key_a}) :id)))
 
-        (is (= data/a-document (dissoc (dao/get-document {:id generated_key_a} op) :id)))
+        (dao/del-document! {:id generated_key_a})
 
-        (dao/del-document! {:id generated_key_a} op)
+        (is (= nil (dao/get-document {:id generated_key_a})))
 
-        (is (= nil (dao/get-document {:id generated_key_a} op)))
+        (dao/update-document! data/b-document {:id generated_key_b})
 
-        (dao/update-document! data/b-document {:id generated_key_b} op)
-
-        (is (= data/b-document (dissoc (dao/get-document {:id generated_key_b} op) :id)))))))
+        (is (= data/b-document (dissoc (dao/get-document {:id generated_key_b}) :id)))))))

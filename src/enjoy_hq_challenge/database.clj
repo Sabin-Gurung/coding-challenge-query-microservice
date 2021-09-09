@@ -9,22 +9,31 @@
 
 (def db-config (:db env))
 
-(def my-db (jdbc/get-datasource db-config))
-
-(defn- target [transaction]
-  (if transaction
-    transaction
-    my-db))
+(def datasource (jdbc/get-datasource db-config))
 
 (defn- options [return-keys]
   {:builder-fn  rs/as-unqualified-lower-maps
    :return-keys return-keys})
 
-(defn execute [query {:keys [transaction return-keys]}]
-  (jdbc/execute! (target transaction) query (options return-keys)))
+(defn execute
+  ([query] (execute query false))
+  ([query return-keys] (jdbc/execute! datasource query (options return-keys))))
 
-(defn execute-one [query {:keys [transaction return-keys]}]
-  (jdbc/execute-one! (target transaction) query (options return-keys)))
+(defn execute-one
+  ([query] (execute-one query false))
+  ([query return-keys] (jdbc/execute-one! datasource query (options return-keys))))
+
+
+
+
+
+
+
+
+
+
+
+
 
 (comment
   (-> (hh/insert-into :users)
@@ -64,7 +73,7 @@
       (execute)
       )
 
-  (jdbc/execute! my-db ["CREATE TABLE users (
+  (jdbc/execute! datasource ["CREATE TABLE users (
                             username varchar(255) not null,
                             password varchar(255) not null,
                             primary key (username)
