@@ -20,3 +20,13 @@
       ; user should exist
       (is (= data/a-user (dao/get-user data/a-user op))))
     ))
+
+(deftest create-insert-document
+  (jdbc/with-transaction
+    [tx db/my-db {:rollback-only true}]
+    (let [op {:transaction tx}]
+
+      (dao/create-user! data/a-user op)
+      (let [{generated_key :generated_key} (dao/insert-document! data/a-document op)]
+        (is (= data/a-document
+               (dissoc (dao/get-document {:id generated_key} op) :id)))))))
