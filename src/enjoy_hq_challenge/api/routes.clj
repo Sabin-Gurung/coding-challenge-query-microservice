@@ -37,6 +37,7 @@
                       :handler    (fn [{{body :body}         :parameters
                                         {username :username} :identity}]
                                     (rs/response (doc-use-case/save username body)))}}]
+
    ["/_index/:id" {:get    {:summary    "Get a document"
                             :parameters {:path {:id s/Int}}
                             :handler    (fn [{{{id :id} :path}     :parameters
@@ -44,6 +45,7 @@
                                           (if-let [doc (doc-use-case/fetch username id)]
                                             (rs/response doc)
                                             (rs/not-found {:error "document not found"})))}
+
                    :delete {:summary    "Delete a document"
                             :parameters {:path {:id s/Int}}
                             :handler    (fn [{{{id :id} :path}     :parameters
