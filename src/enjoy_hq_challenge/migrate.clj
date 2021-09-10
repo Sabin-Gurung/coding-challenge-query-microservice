@@ -20,9 +20,10 @@
   (migratus/pending-list config)
   (migratus/migrate config)
 
-  (migratus/up config 20210908213657)
-  (migratus/down config 20210908213657)
+  (migratus/up config 20210910204035)
+  (migratus/down config 20210910204035)
 
   (migratus/create config "create users table")
   (migratus/create config "create docs table")
+  (migratus/create config "add test data")
   )

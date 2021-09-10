@@ -1,0 +1,28 @@
+insert into users(username, password) values ('fruitman', 'fruitman');
+--;;
+insert into documents(created_at, updated_at, username, title, content) values
+('2022-04-28 04:48:12', '2022-08-20 15:08:23', 'fruitman', 'Pomology', 'The study of fruits is called POMOLOGY.'),
+('2020-03-04 05:15:21', '2021-10-16 05:16:37', 'fruitman', 'banana', 'A banana is not a fruit, it is a herb!'),
+('2020-02-10 09:50:52', '2022-01-02 01:03:39', 'fruitman', 'Strawberries', 'Strawberries are the only fruit with seeds on the outside. There are 200 seeds in an average strawberry.'),
+('2020-04-19 05:30:54', '2021-11-11 11:34:15', 'fruitman', 'Red', 'Red-coloured fruits keep your heart strong.'),
+('2021-07-08 11:42:22', '2022-02-20 09:33:53', 'fruitman', 'Orange', 'Orange -coloured fruits tend to keep your eyes healthy.'),
+('2020-03-09 09:30:28', '2022-02-06 13:39:29', 'fruitman', 'yellow', 'Yellow-coloured fruits prevent you from getting sick.'),
+('2021-05-02 09:39:50', '2022-06-16 20:04:20', 'fruitman', 'green', 'Green-coloured fruits help in making your bones and teeth strong.'),
+('2021-08-04 21:54:01', '2021-09-07 03:45:36', 'fruitman', 'purple', 'Purple and blue fruits help enhance memory.'),
+('2022-07-26 23:27:24', '2022-08-20 15:08:23', 'fruitman', 'mangoes', 'Orangutans love eating mangoes! Mangoes are the most loved and the No 1 fruit in the world.'),
+('2019-12-13 02:48:32', '2022-04-18 10:33:45', 'fruitman', 'veggies', 'Dark green veggies have more vitamin C when compared to light-coloured veggies.'),
+('2020-02-29 07:07:17', '2022-06-16 20:04:20', 'fruitman', 'apples', 'Apples stay afloat in water as they are 25 percent air.'),
+('2021-06-18 01:25:20', '2022-08-20 15:08:23', 'fruitman', 'kiwi', 'A kiwi has two times the vitamin C present in an orange.'),
+('2019-11-05 17:02:11', '2019-11-17 14:08:04', 'fruitman', 'apples around world', '7000 different kinds of apples are grown all around the globe!'),
+('2022-06-16 20:04:20', '2022-09-06 20:38:07', 'fruitman', 'pineapples', 'Pineapples are actually berries and it’s ripening can be speeded up by making it stand upside down (leafy side down).'),
+('2021-10-09 10:36:19', '2022-05-28 06:31:56', 'fruitman', 'banana first fruit', 'Horticulturists are of the opinion that banana was the first fruit on earth.'),
+('2019-12-06 12:22:15', '2021-10-09 10:36:19', 'fruitman', 'dry fruits', 'Dried fruits have more calories than fresh fruits as the process of drying reduces the water content and volume.'),
+('2020-05-10 06:24:31', '2020-10-20 17:25:33', 'fruitman', 'eggplants', 'Eggplants are actually fruits and not veggies. In fact, they are botanically known as berries.'),
+('2019-09-18 06:14:42', '2020-04-19 05:30:54', 'fruitman', 'lychee', 'The seeds of lychee are poisonous and should not be consumed.'),
+('2020-10-20 17:25:33', '2021-08-04 21:54:01', 'fruitman', 'cucumber', 'A cucumber is not a vegetable but a fruit.'),
+('2021-11-11 11:34:15', '2022-05-28 06:31:56', 'fruitman', 'tomato', 'Tomatoes are not a veggie but a fruit. They are regarded as the world’s most popular fruit and have more genes than humans.'),
+('2022-02-20 09:33:53', '2022-04-18 10:33:45', 'fruitman', 'apple coffee', 'Eating an apple is a more reliable method of staying awake than consuming a cup of coffee as it gives you more energy. The natural sugar in an apple is more potent than the caffeine in coffee.'),
+('2021-09-04 12:45:37', '2022-09-06 20:38:07', 'fruitman', 'salad tree', 'There’s a tree called SALAD TREE that sprouts 3 to 7 different fruits in the same tree.'),
+('2020-12-21 10:19:23', '2022-04-18 10:33:45', 'fruitman', 'rose fruits', 'Apples, peaches and raspberries are all members of the rose family.'),
+('2021-01-26 22:52:57', '2021-04-05 08:47:21', 'fruitman', 'grapefruit', 'Drinking Grapefruit juice while taking some prescription medications can cause instant overdose and death.'),
+('2021-04-05 08:47:21', '2022-08-20 15:08:23', 'fruitman', 'coco', 'The COCO DE MER palm tree has the earth’s largest fruit, weighing 42 kg and seeds weighing 17 kg.');
