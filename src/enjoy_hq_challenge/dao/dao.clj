@@ -45,20 +45,25 @@
       h/format
       execute-one))
 
-(defn- prepare-doc [doc]
+(defn- document->sql [doc]
   (-> doc
       (update :updated_at #(some-> % str->sql-time))
       (update :created_at #(some-> % str->sql-time))))
 
+(defn- sql->document [doc]
+  (-> doc
+      (update :updated_at sql-time->str)
+      (update :created_at sql-time->str)))
+
 (defn insert-document! [doc]
   (-> (hh/insert-into :documents)
-      (hh/values [(prepare-doc doc)])
+      (hh/values [(document->sql doc)])
       h/format
       (execute-one true)))
 
 (defn update-document! [doc cond-map]
   (-> (hh/update :documents)
-      (hh/set0 (prepare-doc doc))
+      (hh/set0 (document->sql doc))
       (where cond-map)
       h/format
       execute-one))
@@ -69,8 +74,7 @@
       (where doc)
       h/format
       execute-one
-      (some-> (update :updated_at sql-time->str)
-              (update :created_at sql-time->str))))
+      (some-> sql->document)))
 
 (defn del-document! [doc]
   (-> (hh/delete-from :documents)
@@ -96,14 +100,15 @@
       (where-text sql filter)
       (where-date sql filter))))
 
-(defn query-doc [doc {:keys [filters order_by]}]
+(defn query-document [doc {:keys [filters order_by]}]
   (-> (hh/select :*)
       (hh/from :documents)
       (hh/order-by [(keyword order_by)])
       (where doc)
       ((partial reduce apply-filter) filters)
       (h/format)
-      (execute)))
+      (execute)
+      (->> (map sql->document))))
 
 
 

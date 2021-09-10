@@ -33,6 +33,6 @@
         (assoc :status "ack"))))
 
 (defn query [username filters]
-  (let [result (dao/query-doc {:username username} filters)]
+  (let [result (dao/query-document {:username username} filters)]
     (-> {:total (count result)
          :hits  result})))
