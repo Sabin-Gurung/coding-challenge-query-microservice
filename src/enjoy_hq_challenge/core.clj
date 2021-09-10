@@ -1,7 +1,9 @@
 (ns enjoy-hq-challenge.core
   (:require
     [enjoy-hq-challenge.api.handler :refer [make-app]]
-    [org.httpkit.server :as ser])
+    [org.httpkit.server :as ser]
+    [enjoy-hq-challenge.migrate :refer [run-migration]]
+    )
   (:gen-class))
 
 (defonce server (atom nil))
@@ -19,6 +21,7 @@
   [& args]
   (let [[p & _] args
         port (if (empty? p) 3000 (Integer/parseInt p))]
+    (run-migration)
     (println "server started on port " port)
     (start-server! (make-app) port)))
 

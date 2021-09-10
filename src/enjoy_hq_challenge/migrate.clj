@@ -10,6 +10,12 @@
              :migration-table-name "_migrations"
              :db                   (assoc db-config :subprotocol (:dbtype db-config))})
 
+(defn run-migration []
+  (println "Pending migrations : " (migratus/pending-list config))
+  (migratus/migrate config)
+  (println "Pending migrations : " (migratus/pending-list config))
+  (println "Completed migrations"))
+
 (comment
   (migratus/pending-list config)
   (migratus/migrate config)
