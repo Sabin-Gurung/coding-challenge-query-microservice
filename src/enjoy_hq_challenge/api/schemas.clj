@@ -10,8 +10,8 @@
 
 (s/defschema Document
   {(s/optional-key :id)         s/Int
-   :title                       s/Str
-   :content                     s/Str
+   (s/optional-key :title)      s/Str
+   (s/optional-key :content)    s/Str
    (s/optional-key :created_at) date-regex
    (s/optional-key :updated_at) date-regex})
 
