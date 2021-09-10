@@ -15,6 +15,28 @@
    (s/optional-key :created_at) date-regex
    (s/optional-key :updated_at) date-regex})
 
+(def date-fields #{"created_at" "updated_at"})
+(def text-fields #{"title" "content"})
+
+(s/defschema TextFilter
+  {:field       (apply s/enum text-fields)
+   :filter_type (s/enum "exact_match" "starts_with" "substring")
+   :match       s/Str})
+
+(s/defschema DateFilter
+  {:field               (apply s/enum date-fields)
+   :from                date-regex
+   (s/optional-key :to) date-regex})
+
+(def Filter
+  (s/conditional
+    #(date-fields (:field %)) DateFilter
+    #(text-fields (:field %)) TextFilter))
+
+(s/defschema Query
+  {:filters  [Filter]
+   :order_by (apply s/enum date-fields)})
+
 (comment
   (s/validate Document {:id         2
                         :title      "hello"
@@ -22,4 +44,25 @@
                         :created_at "2021-03-04T12:32:45Z"
                         :updated_at "2021-03-04"})
 
+  (date-fields "")
+  (s/validate Filter {:field "updated_at"
+                      :from  "2021-12-12"})
+  (s/validate Filter {:field       "title"
+                      :filter_type "exact_match"
+                      :match       "content"})
+
+  (s/validate Query {:order_by "updated_at"
+                     :filters  [{:field       "title"
+                                 :filter_type "exact_match"
+                                 :match       "hello"}
+                                {:field "created_at"
+                                 :from  "2012-12-12"
+                                 :to    "2012-12-12"
+                                 }
+                                {:field "created_at"
+                                 :from  "2012-12-12"
+                                 :to    "2012-12-12"
+                                 }
+                                ]
+                     })
   )
