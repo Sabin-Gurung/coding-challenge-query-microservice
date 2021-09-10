@@ -52,6 +52,10 @@
                                               {username :username} :identity}]
                                           (if-let [doc (doc-use-case/delete username id)]
                                             (rs/response doc)
-                                            (rs/not-found {:error "document not found"})))}
-                   }]
-   ])
+                                            (rs/not-found {:error "document not found"})))}}]
+
+   ["/_search" {:post {:summary    "query a document"
+                       :parameters {:body sc/Query}
+                       :handler    (fn [{{body :body}         :parameters
+                                         {username :username} :identity}]
+                                     (rs/response (doc-use-case/query username body)))}}]])

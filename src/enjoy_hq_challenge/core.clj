@@ -18,13 +18,13 @@
   "Entry point to run the program"
   [& args]
   (let [[p & _] args
-        port (if (empty? p) 8080 (Integer/parseInt p))]
+        port (if (empty? p) 3000 (Integer/parseInt p))]
     (println "server started on port " port)
     (start-server! (make-app) port)))
 
 (comment
   (string? nil)
   (-main "300")
-  (start-server! (make-app) 8080)
+  (start-server! (make-app) 3000)
   (stop-server!)
   )

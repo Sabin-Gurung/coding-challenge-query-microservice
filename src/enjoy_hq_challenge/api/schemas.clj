@@ -6,7 +6,7 @@
   {:username s/Str
    :password s/Str})
 
-(def date-regex #"\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}Z)?")
+(def date-regex #"^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}Z)?$")
 
 (s/defschema Document
   {(s/optional-key :id)         s/Int
@@ -46,7 +46,7 @@
 
   (date-fields "")
   (s/validate Filter {:field "updated_at"
-                      :from  "2021-12-12"})
+                      :from  "2021-12-12T12:13:12Z"})
   (s/validate Filter {:field       "title"
                       :filter_type "exact_match"
                       :match       "content"})

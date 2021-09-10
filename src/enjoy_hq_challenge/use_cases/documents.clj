@@ -31,3 +31,8 @@
               :id       id}]
     (-> (dao/del-document! body)
         (assoc :status "ack"))))
+
+(defn query [username filters]
+  (let [result (dao/query-doc {:username username} filters)]
+    (-> {:total (count result)
+         :hits  result})))

@@ -78,6 +78,32 @@
       h/format
       execute-one))
 
+(defn where-text [sql {:keys [match field filter_type]}]
+  (let [like (condp = filter_type
+               "exact_match" match
+               "starts_with" (str match "%")
+               "substring" (str "%" match "%"))]
+    (hh/merge-where sql [:like (keyword field) like])))
+
+(defn where-date [sql {:keys [field from to]}]
+  (let [fld (keyword field)]
+    (-> (hh/merge-where sql [:>= fld from])
+        (cond-> to (hh/merge-where [:<= fld to])))))
+
+(defn apply-filter [sql filter]
+  (let [text-filter? :match]
+    (if (text-filter? filter)
+      (where-text sql filter)
+      (where-date sql filter))))
+
+(defn query-doc [doc {:keys [filters order_by]}]
+  (-> (hh/select :*)
+      (hh/from :documents)
+      (hh/order-by [(keyword order_by)])
+      (where doc)
+      ((partial reduce apply-filter) filters)
+      (h/format)
+      (execute)))
 
 
 
@@ -99,16 +125,63 @@
       (update :updated_at #(some-> % str->sql-time)))
 
   (insert-document!
-    {:username "there"
-     :title    "jeje"
-     :content  "there"
-     ;:created_at (tc/to-sql-time (t/now))
-     ;:updated_at (str->sql-time "")
+    {:username   "sabin"
+     :title      "baby"
+     :content    "there"
+     :created_at "2021-12-10"
+     :updated_at "2021-12-12"
      })
 
   (-> (get-document {:id 10})
       (update :created_at sql-time->str)
       (update :updated_at type)
+      )
+
+  (def query
+    [
+     {:filter_type "exact"
+      :from        ""
+      :field       ""
+      }
+     ]
+    )
+  (where-text {:match       "th"
+               :filter_type "substring"
+               :field       "content"})
+  (where-date {:from  "2021-09-10T13:53:40Z"
+               :field "updated_at"})
+
+  (-> (hh/select :*)
+      (hh/from :documents)
+      (hh/order-by [(keyword "updated_at")])
+      (where {:username "username"})
+      ((partial reduce apply-filter) [{:match       "th"
+                                       :filter_type "substring"
+                                       :field       "content"}
+                                      #_{:match       "th"
+                                         :filter_type "starts_with"
+                                         :field       "title"}
+                                      {:from  "2021-08-10T13:53:40Z"
+                                       :field "updated_at"}
+                                      {:from  "2021-08-10T13:53:40Z"
+                                       :field "created_at"
+                                       :to    "2021-12-12"}])
+      (h/format)
+      ;(execute)
+      )
+
+  (-> (hh/select :*)
+      (hh/from :documents)
+      ;(hh/order-by [:created_at])
+      (where-text {:match       "th"
+                   :filter_type "substring"
+                   :field       "content"})
+      (where-date {:from  "2021-09-10T13:53:40Z"
+                   :field "updated_at"})
+
+      ;(hh/merge-where [:< :created_at "2021-09-10T13:55:00Z"])
+      (h/format)
+      (execute)
       )
   (-> (hh/select :*)
       (hh/from :documents)
