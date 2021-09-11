@@ -1,5 +1,5 @@
 # enjoy-hq-challenge
-Simple rest api to authenticate users and store/query documents.
+Simple rest api to authenticate users and store/query documents. [Original challenege](doc/enjoyhq_clojure_backend_coding_challenge)
 
 Some details reguarding the api.
 * Date fields are of these two formats 
@@ -20,13 +20,13 @@ Run mysql docker container. It should be up on `//localhost:3307/enjoy_hq_dev`
 > docker-compose up
 
 Run either the prebuilt UBERJAR or by LEININGEN. Server will be up on port `3000`
-> java -jar ./releases/enjoy-hq-challenge-0.1.0-SNAPSHOT-standalone.jar
+> java -jar ./releases/enjoy-hq-challenge-0.1.0-SNAPSHOT-standalone.jar     
 > lein run
 
 You can checkout the swagger documentation on  
 http://localhost:3000/api-docs/index.html
 
-Or import the postman collection from `doc/enjoy-hq-challenge.postman_collection.json`
+Or import the postman collection from [doc/enjoy-hq-challenge.postman_collection.json](doc/enjoy-hq-challenge.postman_collection.json)
 
 ## Authentication
 The authentication is JWT token based authentication with expiritaion duration (15min).  
