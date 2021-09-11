@@ -1,5 +1,5 @@
 # enjoy-hq-challenge
-Simple rest api to authenticate users and store/query documents. [Original challenege](doc/enjoyhq_clojure_backend_coding_challenge)
+Simple rest api to authenticate users and store/query documents. [Original challenege](doc/enjoyhq_clojure_backend_coding_challenge.md)
 
 Some details reguarding the api.
 * Date fields are of these two formats 
