@@ -6,6 +6,6 @@ db:
   restart: always
   ports:
     - "3307:3306"
-  # volumes:
-    # - "~/.docker/docker_v/docker_test/db:/var/lib/mysql"
-  command: [ 'mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci', '--max-allowed-packet=67108864' ]
+  volumes:
+    - "./init/setup.sql:/docker-entrypoint-initdb.d/setup.sql"
+  command: [ 'mysqld', '--init-file=/docker-entrypoint-initdb.d/setup.sql', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci', '--max-allowed-packet=67108864' ]
