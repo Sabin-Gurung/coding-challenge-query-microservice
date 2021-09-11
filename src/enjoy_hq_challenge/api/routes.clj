@@ -42,17 +42,13 @@
                             :parameters {:path {:id s/Int}}
                             :handler    (fn [{{{id :id} :path}     :parameters
                                               {username :username} :identity}]
-                                          (if-let [doc (doc-use-case/fetch username id)]
-                                            (rs/response doc)
-                                            (rs/not-found {:error "document not found"})))}
+                                          (rs/response (doc-use-case/fetch username id)))}
 
                    :delete {:summary    "Delete a document"
                             :parameters {:path {:id s/Int}}
                             :handler    (fn [{{{id :id} :path}     :parameters
                                               {username :username} :identity}]
-                                          (if-let [doc (doc-use-case/delete username id)]
-                                            (rs/response doc)
-                                            (rs/not-found {:error "document not found"})))}}]
+                                          (rs/response (doc-use-case/delete username id)))}}]
 
    ["/_search" {:post {:summary    "query a document"
                        :parameters {:body sc/Query}
