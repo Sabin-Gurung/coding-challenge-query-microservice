@@ -5,6 +5,7 @@ Some details reguarding the api.
 * Date fields are of these two formats 
 	* `2023-12-10T15:52:00Z`
 	* `2023-12-10`
+* `Id` field of a document is int.
 * In POST requests always include the headers
 	* `Content-Type: application/json`
 ## Contents
