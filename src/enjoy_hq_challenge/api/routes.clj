@@ -38,17 +38,17 @@
                                         {username :username} :identity}]
                                     (rs/response (doc-use-case/save username body)))}}]
 
-   ["/_index/:id" {:get    {:summary    "Get a document"
-                            :parameters {:path {:id s/Int}}
-                            :handler    (fn [{{{id :id} :path}     :parameters
-                                              {username :username} :identity}]
-                                          (rs/response (doc-use-case/fetch username id)))}
+   ["/_search/:id" {:get    {:summary    "Get a document"
+                             :parameters {:path {:id s/Int}}
+                             :handler    (fn [{{{id :id} :path}     :parameters
+                                               {username :username} :identity}]
+                                           (rs/response (doc-use-case/fetch username id)))}
 
-                   :delete {:summary    "Delete a document"
-                            :parameters {:path {:id s/Int}}
-                            :handler    (fn [{{{id :id} :path}     :parameters
-                                              {username :username} :identity}]
-                                          (rs/response (doc-use-case/delete username id)))}}]
+                    :delete {:summary    "Delete a document"
+                             :parameters {:path {:id s/Int}}
+                             :handler    (fn [{{{id :id} :path}     :parameters
+                                               {username :username} :identity}]
+                                           (rs/response (doc-use-case/delete username id)))}}]
 
    ["/_search" {:post {:summary    "query a document"
                        :parameters {:body sc/Query}

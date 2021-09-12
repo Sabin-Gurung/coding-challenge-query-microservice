@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "6f660914-1e5c-4d61-9a32-aff4fd9fcc3d",
+		"_postman_id": "d4c30447-cc07-48a9-bdb6-b19d293ee1ea",
 		"name": "enjoy-hq-challenge",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -141,14 +141,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/_index/2",
+					"raw": "http://localhost:3000/_search/2",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
-						"_index",
+						"_search",
 						"2"
 					]
 				}
@@ -176,14 +176,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3000/_index/2",
+					"raw": "http://localhost:3000/_search/2",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
-						"_index",
+						"_search",
 						"2"
 					]
 				}
